@@ -52,10 +52,10 @@ router.post("/register", async (req, res) => {
   user.password = hash;
 
   try {
-    const saved = await Users.add(user);
+    const saved = await Users.add(user); //user does not have the original pw, it is hashed pw
     res.status(201).json(saved);
   } catch (err) {
-    res.status(500).json(error);
+    res.status(500).json(err);
   }
 });
 
@@ -152,7 +152,7 @@ router.post("/login", async (req, res) => {
       // Remember that this will force a session record to be created,
       // and a set-cookie header to be sent back to the browser.
       // Exactly what we want.
-      req.session.user = user;
+      req.session.user = user; //force to be in a memory store
       res.status(200).json({ message: `Welcome ${user.username}!` });
     } else {
       // req.session.user will not exist if we end up here... see
@@ -164,7 +164,7 @@ router.post("/login", async (req, res) => {
     // req.session.loggedin will not exist if we end up here... see
     // above... so we are not in danger of a session being created - we
     // just don't modify req.session, and we are good.
-    res.status(500).json(error);
+    res.status(500).json(err);
   }
 });
 

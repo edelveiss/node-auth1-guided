@@ -123,12 +123,16 @@ const sessionConfig = {
   resave: false,
   saveUninitialized: false,
 
+  //now session will be created in our db, not in a memory
+  //expressSession go to SQLite3
   store: new knexSessionStore({
-    knex: require("../database/dbConfig.js"),
+    //knex: require("../database/dbConfig.js"),
+    knex: require("../database/connection.js"),
     tablename: "sessions",
     sidfieldname: "sid",
     createtable: true,
-    clearInterval: 1000 * 60 * 60,
+    clearInterval: 1000 * 60 * 60, //will remove any expired session
+    //go to SQLite Studio
   }),
 };
 
